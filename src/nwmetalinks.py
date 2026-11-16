@@ -68,7 +68,7 @@ class Validator():
 
         '''Validates the provided list and its entries.'''
 
-        Validator.validate_instance(instance = lst, instanceName = lst_name)
+        Validator.validate_instance(instance = lst, instance_name = lst_name)
 
         if any(x is None for x in lst):
             raise ValueError(_MessageCollection.provided_list_contains_null(lst_name))
