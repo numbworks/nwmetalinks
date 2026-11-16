@@ -7,6 +7,8 @@ Alias: nwml
 # GLOBAL MODULES
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
+from xml.dom.minidom import Document
+from xml.etree.ElementTree import Element, SubElement
 from typing import Optional
 
 # LOCAL MODULES
@@ -85,30 +87,30 @@ class Validator():
             raise ValueError(_MessageCollection.list_counts_do_not_match(urls_name = "urls", file_names_name = "file_names"))
 
     @staticmethod
-    def validate_file(file_tuple : tuple[str, str]) -> None:
+    def validate_tuple(tpl : tuple[str, str]) -> None:
 
-        '''Validates the URL and filename of the provided file tuple.'''
+        '''Validates the URL and filename of the provided tuple.'''
 
-        url, file_name = file_tuple
+        url, file_name = tpl
 
         if url is None or not str(url).strip():
-            raise Exception(_MessageCollection.provided_file_entry_null_url(file_tuple))
+            raise Exception(_MessageCollection.provided_file_entry_null_url(tpl))
 
         if file_name is None or not str(file_name).strip():
-            raise Exception(_MessageCollection.provided_file_entry_null_filename(file_tuple))
+            raise Exception(_MessageCollection.provided_file_entry_null_filename(tpl))
 
     @staticmethod
-    def validate_files(files : list[tuple[str, str]]) -> None:
+    def validate_tuples(tuples : list[tuple[str, str]]) -> None:
 
-        '''Validates the provided files and their entries.'''
+        '''Validates the provided tuples and their entries.'''
 
-        Validator.validate_instance(instance = files, instance_name = "files")
+        Validator.validate_instance(instance = tuples, instance_name = "tuples")
 
-        if any(x is None for x in files):
-            raise ValueError(_MessageCollection.provided_list_contains_null("files"))
+        if any(x is None for x in tuples):
+            raise ValueError(_MessageCollection.provided_list_contains_null("tuples"))
 
-        for file_tuple in files:
-            Validator.validate_file(file_tuple = file_tuple)
+        for tpl in tuples:
+            Validator.validate_tuple(tpl = tpl)
 
 # CLASSES
 class MetaLinkFactory():
@@ -119,12 +121,12 @@ class MetaLinkFactory():
 
         '''Maps lists of URLs and filenames into a list of tuples.'''
 
-        files : list[tuple[str, str]] = []
+        tuples : list[tuple[str, str]] = []
 
         for i in range(len(urls)):
-            files.append((urls[i], file_names[i]))
+            tuples.append((urls[i], file_names[i]))
 
-        return files
+        return tuples
 
     def create_metalink4_from_lists(self, package_name : str, urls : list[str], file_names : list[str]) -> str:
 
@@ -133,34 +135,35 @@ class MetaLinkFactory():
         Validator.validate_string(str_val = package_name, str_name = "package_name")
         Validator.validate_urls_and_filenames(urls = urls, file_names = file_names)
 
-        files : list[tuple[str, str]] = self.__map(urls = urls, file_names = file_names)
+        tuples : list[tuple[str, str]] = self.__map(urls = urls, file_names = file_names)
+        xml_content : str = self.create_metalink4(package_name = package_name, tuples = tuples)
 
-        return self.create_metalink4(package_name = package_name, files = files)
-    def create_metalink4(self, package_name : str, files : list[tuple[str, str]]) -> str:
+        return xml_content
+    def create_metalink4(self, package_name : str, tuples : list[tuple[str, str]]) -> str:
 
         '''Creates MetaLink 4.0 XML content from a list of (url, file_name) tuples.'''
 
         Validator.validate_string(str_val = package_name, str_name = "package_name")
-        Validator.validate_files(files = files)
+        Validator.validate_tuples(tuples = tuples)
 
         xml_namespace : str = "urn:ietf:params:xml:ns:metalink"
         ET.register_namespace("", xml_namespace)
 
-        metalink_elem : ET.Element = ET.Element(f"{{{xml_namespace}}}metalink", attrib = {"version": "4.0"})
+        element_metalink : Element = Element(f"{{{xml_namespace}}}metalink", attrib = {"version": "4.0"})
 
-        identity_elem : ET.Element = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}identity")
-        identity_elem.text = package_name
+        element_identity : Element = SubElement(element_metalink, f"{{{xml_namespace}}}identity")
+        element_identity.text = package_name
 
-        for url, file_name in files:
-            file_elem : ET.Element = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}file", attrib = {"name": file_name})
-            url_elem : ET.Element = ET.SubElement(file_elem, f"{{{xml_namespace}}}url")
-            url_elem.text = url
+        for url, file_name in tuples:
+            element_file : Element = SubElement(element_metalink, f"{{{xml_namespace}}}file", attrib = {"name": file_name})
+            element_url : Element = SubElement(element_file, f"{{{xml_namespace}}}url")
+            element_url.text = url
 
-        raw_xml : bytes = ET.tostring(metalink_elem, encoding = "utf-8")
-        parsed : minidom.Document = minidom.parseString(raw_xml)
-        pretty_xml : str = parsed.toprettyxml(indent = "  ", encoding = "utf-8").decode("utf-8")
+        xml_raw : bytes = ET.tostring(element_metalink, encoding = "utf-8")
+        xml_parsed : Document = minidom.parseString(xml_raw)
+        xml_pretty : str = xml_parsed.toprettyxml(indent = "  ", encoding = "utf-8").decode("utf-8")
 
-        return pretty_xml
+        return xml_pretty
 
 # MAIN
 if __name__ == "__main__":

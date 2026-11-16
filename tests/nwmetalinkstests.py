@@ -97,7 +97,7 @@ class ValidatorTestCase(unittest.TestCase):
 
         # Act, Assert
         with self.assertRaises(Exception) as context:
-            Validator.validate_file(file_tuple = file_tuple)
+            Validator.validate_tuple(tpl = file_tuple)
 
         self.assertEqual(expected, str(context.exception))
     def test_validatefile_shouldraiseexception_whenfilenameiswhitespace(self) -> None:
@@ -108,7 +108,7 @@ class ValidatorTestCase(unittest.TestCase):
 
         # Act, Assert
         with self.assertRaises(Exception) as context:
-            Validator.validate_file(file_tuple = file_tuple)
+            Validator.validate_tuple(tpl = file_tuple)
 
         self.assertEqual(expected, str(context.exception))
 class MetaLinkFactoryTestCase(unittest.TestCase):
@@ -200,7 +200,7 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
         )
 
         # Act
-        actual : str = meta_link_factory.create_metalink4(package_name = package_name, files = files)
+        actual : str = meta_link_factory.create_metalink4(package_name = package_name, tuples = files)
 
         # Assert
         self.assertEqual(expected, actual)
@@ -225,7 +225,7 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
         )
 
         # Act
-        actual : str = meta_link_factory.create_metalink4(package_name = package_name, files = files)
+        actual : str = meta_link_factory.create_metalink4(package_name = package_name, tuples = files)
 
         # Assert
         self.assertEqual(expected, actual)
