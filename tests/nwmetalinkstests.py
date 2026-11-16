@@ -113,14 +113,20 @@ class ValidatorTestCase(unittest.TestCase):
         self.assertEqual(expected, str(context.exception))
 class MetaLinkFactoryTestCase(unittest.TestCase):
 
-    def test_map_shouldreturntuples_wheninvoked(self) -> None:
+    def test_map_shouldreturnexpectedtuples_wheninvoked(self) -> None:
 
         # Arrange
-        urls : list[str] = ["https://example.com/a.zip", "https://example.com/b.zip"]
-        file_names : list[str] = ["a.zip", "b.zip"]
+        urls : list[str] = [
+            "https://numbworks.github.io/NW.MetaLinks.zip", 
+            "https://numbworks.github.io/NW.MetaLinks.tar.gz"
+        ]
+        file_names : list[str] = [
+            "NW.MetaLinks.zip", 
+            "NW.MetaLinks.tar.gz"
+        ]
         expected : list[tuple[str, str]] = [
-            ("https://example.com/a.zip", "a.zip"),
-            ("https://example.com/b.zip", "b.zip")
+            ("https://numbworks.github.io/NW.MetaLinks.zip", "NW.MetaLinks.zip"),
+            ("https://numbworks.github.io/NW.MetaLinks.tar.gz", "NW.MetaLinks.tar.gz")
         ]
 
         # Act
@@ -133,8 +139,8 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
 
         # Arrange
         package_name : str = None # type: ignore
-        urls : list[str] = ["https://example.com/package.zip"]
-        file_names : list[str] = ["package.zip"]
+        urls : list[str] = ["https://numbworks.github.io/NW.MetaLinks.zip"]
+        file_names : list[str] = ["NW.MetaLinks.zip"]
 
         # Act, Assert
         with self.assertRaises(ValueError) as context:
@@ -173,57 +179,53 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
         # Assert
         self.assertEqual(expected, actual)
 
-    def test_createmetalink4_shouldreturnexpectedmetalink_whenproperfiles(self) -> None:
+    def test_createmetalink4_shouldreturnexpectedmetalink_whenpropertuples(self) -> None:
 
         # Arrange
-        meta_link_factory : MetaLinkFactory = MetaLinkFactory()
-
         package_name : str = "NW.MetaLinks"
-        files : list[tuple[str, str]] = [
-            ("https://example.com/NW.MetaLinks.zip", "NW.MetaLinks.zip"),
-            ("https://mirror.example.com/NW.MetaLinks.tar.gz", "NW.MetaLinks.tar.gz")
+        tuples : list[tuple[str, str]] = [
+            ("https://numbworks.github.io/NW.MetaLinks.zip", "NW.MetaLinks.zip"),
+            ("https://numbworks.github.io/NW.MetaLinks.tar.gz", "NW.MetaLinks.tar.gz")
         ]
 
         expected : str = (
             '<?xml version="1.0" encoding="utf-8"?>\n'
-            '<metalink version="4.0" xmlns="urn:ietf:params:xml:ns:metalink">\n'
+            '<metalink xmlns="urn:ietf:params:xml:ns:metalink" version="4.0">\n'
             '  <identity>NW.MetaLinks</identity>\n'
             '  <file name="NW.MetaLinks.zip">\n'
-            '    <url>https://example.com/NW.MetaLinks.zip</url>\n'
+            '    <url>https://numbworks.github.io/NW.MetaLinks.zip</url>\n'
             '  </file>\n'
             '  <file name="NW.MetaLinks.tar.gz">\n'
-            '    <url>https://mirror.example.com/NW.MetaLinks.tar.gz</url>\n'
+            '    <url>https://numbworks.github.io/NW.MetaLinks.tar.gz</url>\n'
             '  </file>\n'
             '</metalink>\n'
         )
 
         # Act
-        actual : str = meta_link_factory.create_metalink4(package_name = package_name, tuples = files)
+        actual : str = MetaLinkFactory().create_metalink4(package_name = package_name, tuples = tuples)
 
         # Assert
         self.assertEqual(expected, actual)
     def test_createmetalink4_shouldreturnexpectedmetalink_whenargumentscontainxmlcharacters(self) -> None:
 
         # Arrange
-        meta_link_factory : MetaLinkFactory = MetaLinkFactory()
-
         package_name : str = "NW.MetaLinks & Tests"
         files : list[tuple[str, str]] = [
-            ("https://example.com/package.zip?version=1&platform=windows", 'package & "tests".zip')
+            ("https://numbworks.github.io/package.zip?version=1&platform=windows", 'package & "tests".zip')
         ]
 
         expected : str = (
             '<?xml version="1.0" encoding="utf-8"?>\n'
-            '<metalink version="4.0" xmlns="urn:ietf:params:xml:ns:metalink">\n'
+            '<metalink xmlns="urn:ietf:params:xml:ns:metalink" version="4.0">\n'
             '  <identity>NW.MetaLinks &amp; Tests</identity>\n'
             '  <file name="package &amp; &quot;tests&quot;.zip">\n'
-            '    <url>https://example.com/package.zip?version=1&amp;platform=windows</url>\n'
+            '    <url>https://numbworks.github.io/package.zip?version=1&amp;platform=windows</url>\n'
             '  </file>\n'
             '</metalink>\n'
         )
 
         # Act
-        actual : str = meta_link_factory.create_metalink4(package_name = package_name, tuples = files)
+        actual : str = MetaLinkFactory().create_metalink4(package_name = package_name, tuples = files)
 
         # Assert
         self.assertEqual(expected, actual)
