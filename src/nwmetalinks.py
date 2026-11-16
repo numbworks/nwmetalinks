@@ -148,12 +148,12 @@ class MetaLinkFactory():
 
         metalink_elem : ET.Element = ET.Element(f"{{{xml_namespace}}}metalink", attrib = {"version": "4.0"})
 
-        identity_elem : ET.SubElement = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}identity")
+        identity_elem : ET.Element = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}identity")
         identity_elem.text = package_name
 
         for url, file_name in files:
-            file_elem : ET.SubElement = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}file", attrib = {"name": file_name})
-            url_elem : ET.SubElement = ET.SubElement(file_elem, f"{{{xml_namespace}}}url")
+            file_elem : ET.Element = ET.SubElement(metalink_elem, f"{{{xml_namespace}}}file", attrib = {"name": file_name})
+            url_elem : ET.Element = ET.SubElement(file_elem, f"{{{xml_namespace}}}url")
             url_elem.text = url
 
         raw_xml : bytes = ET.tostring(metalink_elem, encoding = "utf-8")
