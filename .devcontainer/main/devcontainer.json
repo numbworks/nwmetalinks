@@ -1,0 +1,27 @@
+{
+	"name": "main",
+	"image": "nwmetalinks:main",
+	"initializeCommand": "docker build -f .devcontainer/main/Dockerfile -t nwmetalinks:main .",
+	"runArgs": ["--name", "nwmetalinks-main"],
+	"containerEnv": {
+		"TZ": "Europe/Stockholm",
+		"DEVCONTAINER_NAME": "main",
+		"PYTHONPYCACHEPREFIX": "/home/vscode/.cache/pycache",
+		"MYPY_CACHE_DIR": "/home/vscode/.cache/mypy_cache"
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-toolsai.jupyter",
+				"ms-toolsai.datawrangler",
+				"shd101wyy.markdown-preview-enhanced"
+			]
+		}
+	},
+	"mounts": [
+		"source=nwmetalinks-cache,target=/home/vscode/.cache,type=volume"
+	]
+}

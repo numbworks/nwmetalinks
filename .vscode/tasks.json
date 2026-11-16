@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "nwmetalinks: all-concise",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/scripts/nwmakefiles && make -f makefile-nwmetalinks all-concise",
+            "problemMatcher": []
+        },
+        {
+            "label": "nwmetalinks: coverage-verbose",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/scripts/nwmakefiles && make -f makefile-nwmetalinks coverage-verbose",
+            "problemMatcher": []
+        },
+        {
+            "label": "nwmetalinks: update-codecoverage",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/scripts/nwmakefiles && make -f makefile-nwmetalinks update-codecoverage",
+            "problemMatcher": []
+        }
+    ]
+}
