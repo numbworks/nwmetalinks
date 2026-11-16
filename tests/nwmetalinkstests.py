@@ -144,12 +144,10 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
     def test_createmetalink4fromlists_shouldreturnexpectedmetalink_whenproperurlsandfilenames(self) -> None:
 
         # Arrange
-        meta_link_factory : MetaLinkFactory = MetaLinkFactory()
-
         package_name : str = "NW.MetaLinks"
         urls : list[str] = [
-            "https://example.com/NW.MetaLinks.zip",
-            "https://mirror.example.com/NW.MetaLinks.tar.gz"
+            "https://numbworks.github.io/NW.MetaLinks.zip",
+            "https://numbworks.github.io/NW.MetaLinks.tar.gz"
         ]
         file_names : list[str] = [
             "NW.MetaLinks.zip",
@@ -158,19 +156,19 @@ class MetaLinkFactoryTestCase(unittest.TestCase):
 
         expected : str = (
             '<?xml version="1.0" encoding="utf-8"?>\n'
-            '<metalink version="4.0" xmlns="urn:ietf:params:xml:ns:metalink">\n'
+            '<metalink xmlns="urn:ietf:params:xml:ns:metalink" version="4.0">\n'
             '  <identity>NW.MetaLinks</identity>\n'
             '  <file name="NW.MetaLinks.zip">\n'
-            '    <url>https://example.com/NW.MetaLinks.zip</url>\n'
+            '    <url>https://numbworks.github.io/NW.MetaLinks.zip</url>\n'
             '  </file>\n'
             '  <file name="NW.MetaLinks.tar.gz">\n'
-            '    <url>https://mirror.example.com/NW.MetaLinks.tar.gz</url>\n'
+            '    <url>https://numbworks.github.io/NW.MetaLinks.tar.gz</url>\n'
             '  </file>\n'
             '</metalink>\n'
         )
 
         # Act
-        actual : str = meta_link_factory.create_metalink4_from_lists(package_name = package_name, urls = urls, file_names = file_names)
+        actual : str = MetaLinkFactory().create_metalink4_from_lists(package_name = package_name, urls = urls, file_names = file_names)
 
         # Assert
         self.assertEqual(expected, actual)
