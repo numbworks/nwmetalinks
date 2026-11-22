@@ -10,7 +10,7 @@ Contact: numbworks@gmail.com
 
 From the documentation:
 
-> `nwmetalinks` is a library designed to generate MetaLink 4.0 XML files.
+> `nwmetalinks` is a library that creates MetaLink v4 strings from user-provided URLs and their corresponding filenames for delegating downloads to external applications such as JDownloader.
 
 ## Getting started
 
