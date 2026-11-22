@@ -10,7 +10,57 @@ Contact: numbworks@gmail.com
 
 ## Introduction
 
-`nwmetalinks` is a library designed to generate MetaLink 4.0 XML files.
+`nwmetalinks` is a library that creates MetaLink v4 strings from user-provided URLs and their corresponding filenames for delegating downloads to external applications such as JDownloader.
+
+## The Typical Use Case
+
+In order to use the library, the first thing we need to do is to create a list of download URLs and a list containing their corresponding filenames, and then pass them to the `CreateMetaLink4` method of a `MetaLinkFactory` object, as shown in the following example:
+
+```python
+from nwmetalinks import MetaLinkFactory
+
+package_name : str = "nwmetalinks"
+tuples : list[tuple[str, str]] = [
+    ("https://numbworks.github.io/nwmetalinks.zip", "nwmetalinks.zip"),
+    ("https://numbworks.github.io/nwmetalinks.tar.gz", "NW.nwmetalinks.tar.gz")
+]
+
+metalink : str = MetaLinkFactory().create_metalink4("nwmetalinks", tuples)
+
+with open("nwmetalinks.metalink", "w", encoding="utf-8") as f:
+    f.write(metalink)
+```
+
+## MetaLink v4
+
+Here is a minimal example of a MetaLink v4 file:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<metalink xmlns="urn:ietf:params:xml:ns:metalink" version="4.0">
+  <identity>My Package Name</identity>
+
+  <file name="example.bin">
+    <url>https://example.com/example.bin</url>
+  </file>
+</metalink>
+```
+
+Even if it's a XML file under the hood, a MetaLink file is expected to have the `.metalink` extension (instead of `.xml`).
+
+## MetaLink v4 and JDownloader
+
+JDownloader has full support for the MetaLink v4 format, but it's worth mentioning that by default, once the user imports a MetaLink file, JDownloader will ping all the files inside it, to check for their online status. 
+
+When importing a MetaLink file with hundreds or thousands of links inside, could flood the website and bring the provider to blacklist your IP address.
+
+Before importing a MetaLink file, it could be a good practice to disable the `Do Link Check` feature:
+
+1. Open JDownloader 2.
+2. Go to `Settings` -> `Advanced Settings`.
+3. Locate the setting: `LinkCollector: Do Link Check`
+4. Untick (disable) this option.
+4. Done!
 
 ## See Also: `developerguide`
 
