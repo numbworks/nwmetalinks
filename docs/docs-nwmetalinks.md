@@ -62,6 +62,12 @@ Before importing a MetaLink file, it could be a good practice to disable the `Do
 4. Untick (disable) this option.
 4. Done!
 
+## See Also: `contributionguide`
+
+If you would like to contribute to this project, please take a look at the following document first:
+
+- [docs-contributionguide-python.md](SeeAlso-contributionguide/docs-contributionguide-python.md)
+
 ## See Also: `developerguide`
 
 To get started with this project as a developer, please give a look to the following document:
@@ -84,7 +90,7 @@ To learn more about some known issues that might have required a workaround to m
 
 This project includes portions of the `nwmakefiles` project, which is documented here:
 
-- [docs-nwmakefiles.md](SeeAlso-nwmakefiles/docs-nwmakefiles.md)
+- [docs-nwmakefiles-python.md](SeeAlso-nwmakefiles/docs-nwmakefiles-python.md)
 
 ## See Also: `nwpublishers`
 
