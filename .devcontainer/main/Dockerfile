@@ -15,6 +15,10 @@ RUN pip install mypy==1.13.0
 RUN pip install radon==6.0.1
 RUN pip install pylint==3.3.3
 
+# NWPUBLISHERS
+RUN pip install build==1.6.1 
+RUN pip install twine==7.0.0
+
 # OTHERS
 RUN pip install --upgrade pip==26.0.1
 RUN pip install setuptools==82.0.1

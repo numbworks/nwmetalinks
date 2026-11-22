@@ -5,8 +5,8 @@ Contact: numbworks@gmail.com
 
 | Date | Author | Description |
 |---|---|---|
-| 2026-11-16 | numbworks | Created. |
-| 2026-11-16 | numbworks | Last updated (v1.0.0). |
+| 2026-11-22 | numbworks | Created. |
+| 2026-11-22 | numbworks | Last updated (v1.0.0). |
 
 ## Introduction
 
@@ -85,6 +85,12 @@ To learn more about some known issues that might have required a workaround to m
 This project includes portions of the `nwmakefiles` project, which is documented here:
 
 - [docs-nwmakefiles.md](SeeAlso-nwmakefiles/docs-nwmakefiles.md)
+
+## See Also: `nwpublishers`
+
+To know more about the package publishing logic, please give a look to the following document:
+
+- [docs-nwpublishers-python.md](SeeAlso-nwpublishers/docs-nwpublishers-python.md)
 
 ## See Also: `userguide`
 
