@@ -1,6 +1,6 @@
 include makefile
 
-MODULE_NAME = "nwdocstringchecking"
+MODULE_NAME = "nwmetalinks"
 
 .PHONY: \
 	clear \
